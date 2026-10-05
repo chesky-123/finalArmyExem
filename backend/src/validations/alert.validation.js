@@ -9,3 +9,14 @@ export const alertSchema = z.object({
     description: z.string().min(1),
     status: z.enum(['open', 'in_progress', 'closed']).default('open')
 })
+
+
+export const updateAlertSchema = z.object({
+    displayName: z.string(),
+    priority: z.enum(['Low', 'Medium', 'High', 'Critical']),
+    lat: z.number(),
+    lng: z.number(),
+    arena: z.string(),
+    description: z.string(),
+    status: z.enum(['open', 'in_progress', 'closed'])
+})
