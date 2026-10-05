@@ -13,6 +13,6 @@ try {
     process.exit(1)
 };
 
-const db = client.db('notification system');
+const db = client.db('alertsSystem');
 
 export const collection = db.collection('alerts')
