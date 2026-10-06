@@ -16,3 +16,5 @@ try {
 const db = client.db('alertsSystem');
 
 export const collection = db.collection('alerts')
+
+export const authCollection = db.collection('users')

@@ -8,7 +8,7 @@ export async function createAlert(req, res) {
         console.log(validData);
 
         const result = await insertAlert(validData);
-        res.status(201).json({ message: 'alert created successfuly' })
+        res.status(201).json({ message: 'ההתראה נוצרה בהצלחה', id: result.insertedId })
 
     } catch (e) {
         console.error(e);
@@ -32,7 +32,9 @@ export async function getAlertByld(req, res) {
     try {
         const { id } = req.params;
         const alert = await findAlertById(id);
-        res.status(200).json(alert)
+        console.log(alert);
+        
+        res.status(200).json(alert[0])
     } catch (e) {
         console.error(e.message);
         return res.status(500).json({ message: "server faild" })
@@ -56,11 +58,11 @@ export async function deleteAlert(req, res) {
 export async function putAlert(req, res) {
     try {
         const { id } = req.params;
-        
+
         const validData = updateAlertSchema.parse(req.body)
-        
+
         const result = await updateAlert(id, validData);
-        if(!result.acknowledged) return res.status(403).json({message:"Unable to update"})
+        if (!result.acknowledged) return res.status(403).json({ message: "Unable to update" })
         res.status(200).json({ message: 'alert updated successfuly' })
     } catch (e) {
         console.error(e.message);

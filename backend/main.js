@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
-import { router } from './src/routes/router.js';
+import { router as alertRout} from './src/routes/alertRouter.js';
+import { router as authRout} from './src/routes/authRouter.js';
 import cors from 'cors'
 
 
@@ -13,7 +14,9 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use('/api/alerts', router);
+app.use('/api/alerts', alertRout);
+
+app.use('/api/auth', authRout);
 
 
 app.listen(PORT, (e) => {
