@@ -1,19 +1,38 @@
-import { deleteAuthById, findAllAuths, findAuthById, insertAuth, updateAuth } from "../DAL/auth.dal.js";
+import jwt from 'jsonwebtoken'
+import { deleteAuthById, findAllAuths, findAuthByEmail, insertAuth, updateAuth } from "../DAL/auth.dal.js";
 import { authSchema, updateAuthSchema } from "../validations/auth.validation.js";
+import { email } from 'zod';
 
 
 
 export async function createAuth(req, res) {
     try {
-        const validData = authSchema.parse(req.body)
-        console.log(validData);
+        const user = req.body
+        const result = await insertAuth(user);
 
-        const result = await insertAuth(validData);
-        res.status(201).json({ message: 'משתמש נוצרה בהצלחה', id: result.insertedId })
+
+        res.status(201).json({ message: 'משתמש נוצר בהצלחה', id: result.insertedId })
 
     } catch (e) {
         console.error(e);
         return res.status(500).json({ message: "server faild" })
+    }
+}
+
+
+export async function loginUser(req, res) {
+    try {
+        const user = req.body
+
+        const token = jwt.sign(
+            { email: user.email, password: user.password },
+            process.env.JWT_SECRET || 'sxerdctfvygbhjnkjmlk',
+            { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+        )
+        res.status(200).json({ success: true, token })
+    } catch (e) {
+        return res.status(500).json({ success: false, message: "server faild" })
+
     }
 }
 
@@ -29,13 +48,13 @@ export async function getAllAuth(req, res) {
 }
 
 
-export async function getAuthByld(req, res) {
+export async function getAuthByEmail(req, res) {
     try {
-        const { id } = req.params;
-        const auth = await findAuthById(id);
+        const { email } = req.user;
+        const auth = await findAuthByEmail(email);
         console.log(auth);
-        
-        res.status(200).json(auth[0])
+
+        res.status(200).json({ success: true, data: auth[0] })
     } catch (e) {
         console.error(e.message);
         return res.status(500).json({ message: "server faild" })

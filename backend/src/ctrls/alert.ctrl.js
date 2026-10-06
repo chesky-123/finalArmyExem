@@ -1,13 +1,11 @@
 import { deleteAlertById, findAlertById, findAllAlerts, insertAlert, updateAlert } from "../DAL/alerts.dal.js";
-import { alertSchema, updateAlertSchema } from "../validations/alert.validation.js";
+
 
 
 export async function createAlert(req, res) {
     try {
-        const validData = alertSchema.parse(req.body)
-        console.log(validData);
 
-        const result = await insertAlert(validData);
+        const result = await insertAlert(req.body);
         res.status(201).json({ message: 'ההתראה נוצרה בהצלחה', id: result.insertedId })
 
     } catch (e) {
@@ -59,11 +57,9 @@ export async function putAlert(req, res) {
     try {
         const { id } = req.params;
 
-        const validData = updateAlertSchema.parse(req.body)
-
-        const result = await updateAlert(id, validData);
-        if (!result.acknowledged) return res.status(403).json({ message: "Unable to update" })
-        res.status(200).json({ message: 'alert updated successfuly' })
+        const result = await updateAlert(id, req.body);
+        if (!result.acknowledged) return res.status(403).json({ message: "לא ניתן לעדכן" })
+        res.status(200).json({ message: 'התראה עודכנה בהצלחה' })
     } catch (e) {
         console.error(e.message);
         return res.status(500).json({ message: "server faild" })

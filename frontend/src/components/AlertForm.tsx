@@ -2,16 +2,19 @@
 
 import { useState } from 'react'
 import axios from 'axios'
-import type { MapAlert } from './AlertsMap'
+import AlertsMap, { type AlertsMapProps } from './AlertsMap'
+import ShowAlerts from './ShowAlerts'
+// import type { MapAlert } from './AlertsMap'
 
 export default function AlertForm() {
     const [displayName, setDisplayName] = useState('')
     const [description, setDescription] = useState('')
-    const [priority, setPriority] = useState('')
-    const [arena, setArena] = useState('')
-    const [status, setStatus] = useState('')
+    const [priority, setPriority] = useState('Low')
+    const [arena, setArena] = useState('North')
+    const [status, setStatus] = useState('active')
     const [lat, setLat] = useState('')
     const [lon, setLon] = useState('')
+    const [id, setId] = useState<AlertsMapProps | null>(null)
 
     const handleSubmit = async (e: any) => {
 
@@ -29,6 +32,8 @@ export default function AlertForm() {
                 lon
             })
             alert(data.message)
+           setId(data.id)
+            
 
         } catch (error) {
             console.log("sssss",error)
@@ -89,6 +94,8 @@ export default function AlertForm() {
             />
             <br />
             <button type="submit">שלח התראה</button>
+            {/* <ShowAlerts /> */}
+            {/* { newAlert && <AlertsMap alerts={[{...newAlert.data[0]}]}/>} */}
         </form>
     )
 }

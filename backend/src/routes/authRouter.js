@@ -1,16 +1,19 @@
 import { Router } from 'express'
 import { authExsist } from '../midllwares/auth.midll.js';
-import { createAuth, deleteAuth, getAllAuth, getAuthByld, putAuth } from '../ctrls/auth.strl.js';
+import { createAuth, deleteAuth, getAllAuth, getAuthByEmail, loginUser, putAuth } from '../ctrls/auth.strl.js';
+import { authenticate } from '../utils/verifyToken.js';
 
 
 export const router = Router();
 
 router.get('/', getAllAuth)
 
-router.get('/:id', getAuthByld)
+router.post("/login",authExsist ,loginUser)
 
-router.post('/', createAuth)
+router.get('/me',authenticate , getAuthByEmail)
 
-router.delete('/:id',authExsist,  deleteAuth)
+router.post('/register', createAuth)
 
-router.put('/:id',authExsist ,putAuth)
+router.delete('/users/:id', authExsist, deleteAuth)
+
+// router.put('/users/:id',authExsist ,putAuth)

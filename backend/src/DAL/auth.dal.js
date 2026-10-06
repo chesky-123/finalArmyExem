@@ -15,8 +15,8 @@ export async function findAllAuths() {
 };
 
 
-export async function findAuthById(id) {
-    return await authCollection.find({ _id: new ObjectId(id) }).toArray();
+export async function findAuthByEmail(email) {
+    return await authCollection.find({ email: email }).toArray();
 };
 
 

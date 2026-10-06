@@ -1,9 +1,11 @@
-// import AlertsMap from "../components/AlertsMap";
-// import { useAlertsStore } from "../store/alertsStore";
+import React from 'react'
+import ShowAlerts from '../components/ShowAlerts'
 
-
-// export default function Home() {
-//   const alerts = useAlertsStore.add((state:any) => state.alerts);
-
-//   return <AlertsMap alerts={alerts} height={600} />;
-// }
+export default function Home() {
+  return (
+    <div>
+      Home
+      <ShowAlerts />
+    </div>
+  )
+}

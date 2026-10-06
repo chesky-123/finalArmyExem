@@ -7,18 +7,19 @@ export type AlertPriority = "Low" | "Medium" | "High" | "Critical";
 
 
 export interface MapAlert {
-  id: string | number;
+  _id: string | number;
   displayName: string;
-  priority: string;
-  arena:string;
-  description:string;
-  status:string
+  priority: "Low" | "Medium" | "High" | "Critical";
+  arena: "North" | "South" | "Center";
+  description: string;
+  status: "active" | "handled"
   lon: number;
   /** Latitude (קו רוחב), e.g. 32.08 for Tel Aviv */
   lat: number;
 }
 
 export interface AlertsMapProps {
+  // [x: string]: string | number;
   alerts: MapAlert[];
   /** Map height. The map needs an explicit height. Default: 520 */
   height?: number | string;
@@ -87,7 +88,7 @@ export default function AlertsMap({ alerts, height = 520, className }: AlertsMap
           const isCritical = alert.priority === "Critical";
 
           return (
-            <span key={alert.id}>
+            <span key={alert._id}>
               {isCritical && (
                 <CircleMarker
                   center={position}

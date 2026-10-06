@@ -16,3 +16,12 @@ export const updateAuthSchema = z.object({
     email: z.email().optional(),
     role: z.enum(['admin', 'arena_user', 'general_user']).optional()
 })
+
+
+
+export const loginSchema = z.object({
+    password: z.string().min(6),
+    email: z.email(),
+})
+
+

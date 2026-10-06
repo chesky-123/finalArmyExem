@@ -3,9 +3,13 @@ import { findAlertById } from "../DAL/alerts.dal.js";
 
 export async function alertExsist(req, res, next) {
     try {
+        const validData = alertSchema.parse(req.body)
+        if (!validData) {
+            return res.status(401).json({ message: "אחד או יותר מהנתונים שגויים" })
+        }
         const { id } = req.params;
         const result = await findAlertById(id);
-        if(result.length === 0) return res.status(404).json({message:"alert not found"})
+        if (result.length === 0) return res.status(404).json({ message: "התראה לא נמצאת" })
         next()
     } catch (e) {
         console.error(e.message);
@@ -15,11 +19,11 @@ export async function alertExsist(req, res, next) {
 
 export async function latLonToNumber(req, res, next) {
     try {
-        const {lat,lon} = req.body;
-        if(isNaN(lat) || isNaN(lon)) return res.status(401).json({message:"קווי מידה חייבים להיות מספר"})
+        const { lat, lon } = req.body;
+        if (isNaN(lat) || isNaN(lon)) return res.status(401).json({ message: "קווי מידה חייבים להיות מספר" })
         req.body.lat = Number(lat);
         req.body.lon = Number(lon);
-        
+
         next()
     } catch (e) {
         console.error(e.message);
