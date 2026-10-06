@@ -3,7 +3,12 @@ import { collection } from "../db/db.js";
 
 
 export async function insertAlert(alert) {
-    return await collection.insertOne(alert)
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    
+    const result = await collection.insertOne(alert);
+    console.log(result);
+    
+    return result
 };
 
 
